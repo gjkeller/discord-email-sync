@@ -23,18 +23,23 @@ public class MailManager {
     private static final Logger log = LoggerFactory.getLogger(MailManager.class);
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
+    private Main main;
     private Credential credential;
 
-    public MailManager(String googleCredentialsFilename) {
+    public MailManager(Main main, String googleCredentialsFilename) {
+        this.main = main;
+
         try {
             credential = getCredentials(googleCredentialsFilename);
         } catch (GeneralSecurityException | IOException e) {
             log.error("Couldn't get credentials:", e);
             throw new RuntimeException(e);
         }
+    }
 
+    public void sendMessage(String msg) {
         try{
-            SendMessage.sendEmail(credential, "me", "gabrieljameskeller@gmail.com");
+            SendMessage.sendEmail(credential, "me", "gabrieljameskeller@gmail.com", msg);
 
         }
         catch(Exception e) {

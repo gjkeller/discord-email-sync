@@ -46,8 +46,8 @@ public class Main {
     }
 
     private Main(String botToken, String googleCredentialsFilename) {
-        botManager = new BotManager(botToken);
-        mailManager = new MailManager(googleCredentialsFilename);
+        botManager = new BotManager(this, botToken);
+        mailManager = new MailManager(this, googleCredentialsFilename);
     }
 
     private static String getPropertyOrExit(Properties properties, String key) {

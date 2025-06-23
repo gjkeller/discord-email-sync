@@ -14,9 +14,11 @@ public class BotManager extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(BotManager.class);
     private final JDA jda;
+    private final Main main;
 
-    public BotManager(String token) {
-        jda = JDABuilder.createLight(token, EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT))
+    public BotManager(Main main, String token) {
+        this.main = main;
+        this.jda = JDABuilder.createLight(token, EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT))
                 .addEventListeners(this)
                 .build();
     }
@@ -29,5 +31,11 @@ public class BotManager extends ListenerAdapter {
                 event.getChannel(),
                 event.getAuthor(),
                 event.getMessage().getContentDisplay());
+
+        main.getMailManager().sendMessage("New message in Discord channel #%s from %s:\n\n%s".formatted(
+                event.getChannel().getName(),
+                event.getAuthor().getAsTag(),
+                event.getMessage().getContentDisplay()
+        ));
     }
 }

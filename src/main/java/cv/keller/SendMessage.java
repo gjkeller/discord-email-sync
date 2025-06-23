@@ -53,7 +53,7 @@ public class SendMessage {
      * @throws IOException        - if service account credentials file not found.
      */
     public static Message sendEmail(Credential credentials, String fromEmailAddress,
-                                    String toEmailAddress)
+                                    String toEmailAddress, String msg)
             throws MessagingException, IOException {
         // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),
@@ -64,7 +64,7 @@ public class SendMessage {
 
         // Create the email content
         String messageSubject = "Test message";
-        String bodyText = "lorem ipsum.";
+        String bodyText = msg;
 
         // Encode as MIME message
         Properties props = new Properties();
